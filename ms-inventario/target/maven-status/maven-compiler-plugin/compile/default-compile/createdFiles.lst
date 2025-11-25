@@ -1,0 +1,9 @@
+com\hospital\inventario\controller\EquipoController.class
+com\hospital\inventario\repository\EquipoRepository.class
+com\hospital\inventario\config\JwtUtil.class
+com\hospital\inventario\dto\EquipoDto.class
+com\hospital\inventario\Application.class
+com\hospital\inventario\config\JwtAuthFilter.class
+com\hospital\inventario\config\SecurityConfig.class
+com\hospital\inventario\model\Equipo.class
+com\hospital\inventario\service\EquipoService.class

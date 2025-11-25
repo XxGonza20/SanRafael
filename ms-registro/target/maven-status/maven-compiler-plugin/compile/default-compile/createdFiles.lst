@@ -1,0 +1,4 @@
+com\hospital\registro\service\RegistroService.class
+com\hospital\registro\RegistroApplication.class
+com\hospital\registro\exception\GlobalExceptionHandler.class
+com\hospital\registro\controller\RegistroController.class

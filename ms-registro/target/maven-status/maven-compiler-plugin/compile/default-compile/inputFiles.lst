@@ -1,0 +1,16 @@
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\controller\RegistroController.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\config\JwtUtil.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\dto\EgresoDto.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\config\SecurityConfig.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\config\WebClientConfig.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\dto\RegistroDto.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\model\LogTransaction.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\exception\GlobalExceptionHandler.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\config\JwtFilter.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\RegistroApplication.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\repository\LogRepository.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\repository\RegistroRepository.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\dto\IngresoDto.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\service\RegistroService.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\service\InventarioClient.java
+C:\Users\santi\Downloads\microservicios_base\ms-registro\src\main\java\com\hospital\registro\model\Registro.java

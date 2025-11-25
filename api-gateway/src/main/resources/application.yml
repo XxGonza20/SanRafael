@@ -1,0 +1,70 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      # Filtro por defecto: limpia cookies
+      default-filters:
+        - RemoveRequestHeader=Cookie
+
+      # ==== CORS GLOBAL (para React en Vite) ====
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:5173"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+
+      routes:
+        # --- Frontend (Vite) ---
+        - id: frontend
+          uri: http://frontend:5173
+          predicates:
+            - Path=/, /index.html, /assets/**
+
+        # --- Seguridad / Auth ---
+        - id: ms-seguridad
+          uri: http://ms-seguridad:8081
+          predicates:
+            - Path=/auth/**
+          filters:
+            - PreserveHostHeader
+
+        # --- FOTO DEL INVENTARIO (se sirve como imagen pública) ---
+        - id: ms-inventario-foto
+          uri: http://ms-inventario:8082
+          predicates:
+            - Path=/inventario/api/equipos/*/foto
+          filters:
+            - StripPrefix=1        # 🔴 ESTA LÍNEA ES LA CLAVE
+            - PreserveHostHeader
+
+        # --- Inventario (resto de endpoints) ---
+        - id: ms-inventario
+          uri: http://ms-inventario:8082
+          predicates:
+            - Path=/inventario/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+
+        # --- Registro (ingresos / egresos) ---
+        - id: ms-registro
+          uri: http://ms-registro:8083
+          predicates:
+            - Path=/registro/**
+          filters:
+            - StripPrefix=1
+            - PreserveHostHeader
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

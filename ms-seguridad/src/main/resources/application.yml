@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://ms-seguridad-db:5432/ms_seguridad
+    username: seguridad
+    password: seguridad_pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae
+  expiration-ms: 86400000  # 1 día
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

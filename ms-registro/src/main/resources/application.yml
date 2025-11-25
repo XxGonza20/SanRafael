@@ -1,0 +1,26 @@
+server:
+  port: 8083
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://ms-registro-db:5432/ms_registro}
+    username: ${SPRING_DATASOURCE_USERNAME:registro}
+    password: ${SPRING_DATASOURCE_PASSWORD:registro_pass}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# JWT igual que en los otros servicios
+jwt:
+  secret: ${JWT_SECRET:b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae}
+
+# URL interna para el ms-inventario (en docker-compose)
+inventario:
+  base-url: ${INVENTARIO_BASE_URL:http://ms-inventario:8082}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

@@ -1,0 +1,26 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://ms-inventario-db:5432/ms_inventario}
+    username: ${SPRING_DATASOURCE_USERNAME:invent}
+    password: ${SPRING_DATASOURCE_PASSWORD:invent_pass}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+# Carpeta base para fotos y QR (en Docker será un volumen montado a /app/uploads)
+uploads:
+  base-path: ${UPLOADS_BASE:/app/uploads}
+
+# Para validar los JWT emitidos por ms-seguridad
+jwt:
+  secret: ${JWT_SECRET:b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

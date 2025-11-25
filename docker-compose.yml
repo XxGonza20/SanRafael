@@ -1,0 +1,165 @@
+version: "3.9"
+
+services:
+
+  # ============================
+  #     BASE DE DATOS SEGURIDAD
+  # ============================
+  ms-seguridad-db:
+    image: postgres:15
+    container_name: ms_seguridad_db
+    restart: always
+    environment:
+      POSTGRES_DB: ms_seguridad
+      POSTGRES_USER: seguridad
+      POSTGRES_PASSWORD: seguridad_pass
+    volumes:
+      - msseg_db:/var/lib/postgresql/data
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #     MICRO SERVICIO SEGURIDAD
+  # ============================
+  ms-seguridad:
+    build: ./ms-seguridad
+    container_name: ms_seguridad
+    restart: always
+    depends_on:
+      - ms-seguridad-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-seguridad-db:5432/ms_seguridad
+      SPRING_DATASOURCE_USERNAME: seguridad
+      SPRING_DATASOURCE_PASSWORD: seguridad_pass
+
+      # 🔥 SECRETO JWT FUERTE (64 chars — 512 bits)
+      JWT_SECRET: b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae
+
+    ports:
+      - "8081:8081"
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #     BASE DE DATOS INVENTARIO
+  # ============================
+  ms-inventario-db:
+    image: postgres:15
+    container_name: ms_inventario_db
+    restart: always
+    environment:
+      POSTGRES_DB: ms_inventario
+      POSTGRES_USER: inventario
+      POSTGRES_PASSWORD: inventario_pass
+    volumes:
+      - msinv_db:/var/lib/postgresql/data
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #     MICRO SERVICIO INVENTARIO
+  # ============================
+  ms-inventario:
+    build: ./ms-inventario
+    container_name: ms_inventario
+    restart: always
+    depends_on:
+      - ms-inventario-db
+      - ms-seguridad
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-inventario-db:5432/ms_inventario
+      SPRING_DATASOURCE_USERNAME: inventario
+      SPRING_DATASOURCE_PASSWORD: inventario_pass
+
+      # 🔥 MISMO JWT SECRET
+      JWT_SECRET: b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae
+
+    ports:
+      - "8082:8082"
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #     BASE DE DATOS REGISTRO
+  # ============================
+  ms-registro-db:
+    image: postgres:15
+    container_name: ms_registro_db
+    restart: always
+    environment:
+      POSTGRES_DB: ms_registro
+      POSTGRES_USER: registro
+      POSTGRES_PASSWORD: registro_pass
+    volumes:
+      - msreg_db:/var/lib/postgresql/data
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #     MICRO SERVICIO REGISTRO
+  # ============================
+  ms-registro:
+    build: ./ms-registro
+    container_name: ms_registro
+    restart: always
+    depends_on:
+      - ms-registro-db
+      - ms-inventario
+      - ms-seguridad
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://ms-registro-db:5432/ms_registro
+      SPRING_DATASOURCE_USERNAME: registro
+      SPRING_DATASOURCE_PASSWORD: registro_pass
+
+      # 🔥 MISMO JWT
+      JWT_SECRET: b7f9c1d08e3a497bcf6e3210a98dffe77a2d9d98c4b3ef10adfef23a7819ccae
+
+      INVENTARIO_URL: http://ms-inventario:8082
+      UPLOADS_BASE: /app/uploads
+    volumes:
+      - msreg_uploads:/app/uploads
+    ports:
+      - "8083:8083"
+    networks:
+      - red_microservicios
+
+
+  # ============================
+  #         API GATEWAY
+  # ============================
+  api-gateway:
+    build: ./api-gateway
+    container_name: api_gateway
+    restart: always
+    depends_on:
+      - ms-seguridad
+      - ms-inventario
+      - ms-registro
+    ports:
+      - "8080:8080"
+    networks:
+      - red_microservicios
+
+
+
+# ============================
+#         VOLUMENES
+# ============================
+volumes:
+  msseg_db:
+  msinv_db:
+  msreg_db:
+  msreg_uploads:
+
+
+# ============================
+#         RED INTERNA
+# ============================
+networks:
+  red_microservicios:
+    driver: bridge
